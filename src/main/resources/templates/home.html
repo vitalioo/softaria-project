@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Автоматизированная система мониторинга</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Автоматизированная система мониторинга</h1>
+
+    <div class="column">
+        <form th:action="@{/api/v1/pages/send}" method="post">
+            <label for="email">Введите email:</label>
+            <input type="email" id="email" name="email" placeholder="example@example.com" required>
+            <button type="submit">Отправить письмо</button>
+        </form>
+    </div>
+
+    <div class="section">
+        <h2>Состояние сайтов на вчерашний день</h2>
+        <div class="input-group">
+            <form th:action="@{/api/v1/pages/past-url}" method="post">
+                <label for="past-url">Введите URL:</label>
+                <input type="text" id="past-url" name="url" placeholder="http://example.com" required>
+                <button type="submit">Создать</button>
+            </form>
+        </div>
+        <ul>
+            <li th:each="url : ${pastUrls}">
+                <span th:text="${url}"></span>
+                <form th:action="@{/api/v1/pages/delete-past-url}" method="post" style="display:inline;">
+                    <input type="hidden" name="url" th:value="${url}">
+                    <button type="submit" style="width: 60px; font-size: 12px; padding: 2px;">Удалить</button>
+                </form>
+                <br>
+            </li>
+        </ul>
+    </div>
+
+    <div class="column">
+        <h2>Состояние сайтов на сегодня</h2>
+        <div class="input-group">
+            <form th:action="@{/api/v1/pages/present-url}" method="post">
+                <label for="present-url">Введите URL:</label>
+                <input type="text" id="present-url" name="url" placeholder="http://example.com" required>
+                <button type="submit">Создать</button>
+            </form>
+        </div>
+        <ul>
+            <li th:each="url : ${presentUrls}">
+                <span th:text="${url}"></span>
+                <form th:action="@{/api/v1/pages/delete-present-url}" method="post" style="display:inline;">
+                    <input type="hidden" name="url" th:value="${url}">
+                    <button type="submit" style="width: 60px; font-size: 12px; padding: 2px;">Удалить</button>
+                </form>
+                <br>
+            </li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
